@@ -102,8 +102,8 @@ class _ClassSelectionScreenState extends State<ClassSelectionScreen> {
         TextButton(onPressed: () => Navigator.pop(c), child: const Text("CANCEL")),
         TextButton(onPressed: () async {
           if (ctrl.text.isEmpty) return;
-          if (old == null) await http.post(Uri.parse("http://192.168.1.7:8000/add_class"), body: {"name": ctrl.text.trim().upper()});
-          else await http.post(Uri.parse("http://192.168.1.7:8000/edit_class"), body: {"old_name": old, "new_name": ctrl.text.trim().upper()});
+          if (old == null) await http.post(Uri.parse("http://10.10.99.51:8000/add_class"), body: {"name": ctrl.text.trim().toUpperCase()});
+          else await http.post(Uri.parse("http://10.10.99.51:8000/edit_class"), body: {"old_name": old, "new_name": ctrl.text.trim().toUpperCase()});
           Navigator.pop(c); _fetch();
         }, child: const Text("SAVE")),
       ],
@@ -284,7 +284,7 @@ class _RegisterFormScreenState extends State<RegisterFormScreen> {
             if (_n.text.isEmpty || _r.text.isEmpty) return; setState(() => _load = true); 
             final img = await _ctrl!.takePicture(); 
             var req = http.MultipartRequest('POST', Uri.parse("http://192.168.1.7:8000/register")); 
-            req.fields.addAll({'name': _n.text.trim(), 'reg_no': _r.text.trim().upper(), 'class_name': widget.targetClass});
+            req.fields.addAll({'name': _n.text.trim(), 'reg_no': _r.text.trim().toUpperCase(), 'class_name': widget.targetClass});
             req.files.add(await http.MultipartFile.fromPath('file', img.path)); await req.send(); Navigator.pop(context); 
           }, 
           child: _load ? const CircularProgressIndicator(color: Colors.white) : const Text("REGISTER", style: TextStyle(fontWeight: FontWeight.bold)))),
