@@ -1,18 +1,19 @@
-# Use an image that already has dlib and face_recognition installed
-FROM animenosekai/face_recognition:latest
+# Use the official pre-built image from the library creator
+FROM animcogn/face_recognition:cpu
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Copy your requirements and install them
+# Copy your specific requirements and install them
+# We use --no-cache-dir to keep the image small
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of your backend code
+# Copy your backend code
 COPY . .
 
-# Expose the port Render expects
+# Expose port 10000 for Render
 EXPOSE 10000
 
-# Start the application using uvicorn
+# Start the server (make sure your FastAPI instance is named 'app' in app.py)
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "10000"]
